@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+        <link rel="stylesheet" href="css/leaflet-measure.scss">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+	    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <!-- memanggil bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+        <link rel = "icon" href = "LOGOUGM.png" 
+        type = "image/x-icon">
+        <style>
+        html, body, #map {
+        height: 100%;
+        width: 100%;
+        height: calc(100vh - 60px);
+        }
+        .navbar-brand {
+        font-family: 'Montserrat SemiBold'; 
+        }
+        </style>
+        <title>Pariwisata Desa Labuhan Pandan</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark shadow" style="background-image: linear-gradient(to right,#005939, #0045C1 );>
+            <div class="container">
+                <a class="navbar-brand" href="#"></a>
+                <img src="logosambelia.png" alt="Bootstrap" width="30" height="30" /></a>
+                <a class="navbar-brand data-bs-toggle text-white" style="color:white" href="#">Peta Persebaran Pariwisata Desa Labuhan Pandan, Sambelia, Lombok Timur </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item active">
+                        <a class="btn btn-outline-light text-light mx-2" href="../index.html">Halaman Utama <span class="sr-only">(current)</span></a>
+                      </li>
+                    </ul>
+                  </div>
+              </ul>
+
+              <form class="form-inline my-2 my-lg-0">
+                <button 
+                  class="btn btn-outline-light my-2 my-sm-0" 
+                  onclick="cari()">Lokasi Saya</button>
+              </form>
+            </div>
+          </nav>
+        <div id="map"></div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/Potensi_Pariwisata.js"></script>
+        <link rel="stylesheet" href="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.css"/>
+        <script src="leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.js"></script>
+        <link rel="stylesheet" href="Leaflet.print/dist/leaflet.print.css" />
+        <script src="Leaflet.print/dist/leaflet.print.js"></script>
+        <script src="leaflet.browser.print/dist/leaflet.browser.print.js"></script>
+        <script src="leaflet.browser.print/dist/leaflet.browser.print.min.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>        
+        <script>
+        var map = L.map('map', {
+            center: [-8.391550466844217, 116.7216738152933], zoom: 16, zoomControl:true, maxZoom:28, minZoom:1
+        });
+
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+
+        function pop_Potensi_Pariwisata(feature, layer) {
+    var popupContent = '<table>' +
+        '<tr>' +
+        '<th scope="row">Nama Lokasi</th>' +
+        '<td>' + (feature.properties['Nama Lokasi'] !== null ? feature.properties['Nama Lokasi'] : '') + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<th scope="row">Foto</th>' +
+        '<td>' + (feature.properties['Foto'] !== null ? '<img src="images/' + String(feature.properties['Foto']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<th scope="row">Deskripsi</th>' +
+        '<td>' + (feature.properties['Deskripsi'] !== null ? feature.properties['Deskripsi'] : '') + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<th scope="row">Lokasi</th>' +
+        '<td>' + (feature.properties['Lokasi'] !== null ? feature.properties['Lokasi'] : '') + '</td>' +
+        '</tr>' +
+        '</table>';
+
+    layer.bindPopup(popupContent, {
+        maxWidth: 300,
+        maxHeight: 200,
+        autoPan: true
+    });
+}
+
+function style_Potensi_Pariwisata_0() {
+    return {
+        radius: 4.0,
+        opacity: 1,
+        color: 'rgba(35,35,35,1.0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 1,
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(229,182,54,1.0)',
+        interactive: true
+    };
+}
+
+function icon_Potensi_Pariwisata(feature, latlng) {
+    var customIcon = L.icon({
+        iconUrl: 'icon.png',
+        iconSize: [32, 50]
+    });
+    return L.marker(latlng, {
+        icon: customIcon
+    });
+}
+
+var layer_Potensi_Pariwisata = L.geoJson(json_Potensi_Pariwisata, {
+    pointToLayer: icon_Potensi_Pariwisata,
+    onEachFeature: pop_Potensi_Pariwisata,
+    style: style_Potensi_Pariwisata_0
+});
+
+map.addLayer(layer_Potensi_Pariwisata);
+
+// Other map configuration
+map.createPane('pane_Potensi_Pariwisata');
+map.getPane('pane_Potensi_Pariwisata').style.zIndex = 403;
+map.getPane('pane_Potensi_Pariwisata').style['mix-blend-mode'] = 'normal';
+        // sCRIPT PETA TAMBAHAN
+        var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        }).addTo(map);
+        var carto = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+        });
+        var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        });
+        var baseMaps = {
+            "Citra Satelit": esri,
+            "Peta Carto": carto,
+            "Peta OSM": OpenStreetMap_Mapnik,
+            "Peta Topo": OpenTopoMap
+        };
+        var titik = L.layerGroup([layer_Potensi_Pariwisata]);
+        var overlayMaps = {
+            "Titik Sebaran": titik,
+        }
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
+        function cari(){
+            alert('tombol ditekan!');
+            map.locate({setView: true, maxZoom: 16});
+            
+            function onLocationFound(e) {
+                var radius = e.accuracy / 2;
+
+                L.marker(e.latlng).addTo(map)
+                    .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+                L.circle(e.latlng, radius).addTo(map);
+            }
+            map.on('locationfound', onLocationFound);
+            };
+        var printer = L.control.browserPrint(); printer.addTo(map);
+        function setupBeforePrintEvent(printer) {
+        printer.on('beforePrint', function () {
+        printer.printMap('Print', 'A4Portrait');
+        });
+        }
+        function initializeMapPrinting(map) {
+        document.getElementById("printButton").addEventListener("click", function () {
+        printer.print();
+        });
+        } 
+        var startIcon = L.icon({
+        iconUrl: 'start.png', 
+        iconSize:[30,50],
+        iconAnchor:[12,41]
+        });
+        var destinationIcon = L.icon({
+        iconUrl: 'arrived.png', 
+        iconSize: [50,30], 
+        iconAnchor: [12, 41],
+        });
+        L.Routing.control({
+         waypoints: [{
+        latLng: L.latLng([-8.391559426144081, 116.72231680946558]),
+        name: "Start"},
+        {
+        latLng: L.latLng([-8.38050602395575, 116.72594100126916]),
+        name: "Destination"}],
+        routeWhileDragging: true,
+        routeDragTimeout: 250,
+        lineOptions: {styles: [{ color: 'gray', opacity: 1, weight: 5 }]},
+            collapsible: true,
+            show: false,
+            createMarker: function(i, waypoint, n) 
+            {if (i === 0 || i === n - 1) {return L.marker(waypoint.latLng, 
+                {draggable: true,icon: i === 0 ? startIcon : destinationIcon,
+                title: waypoint.name});} 
+            else {return L.marker(waypoint.latLng, 
+                {draggable: true,
+                title: waypoint.name});}
+            },
+            summaryTemplate: '<div class="start-end-summary"><b>{name}</b></div>',
+            fitSelectedRoutes: false}).addTo(map) ;
+      </script>
+    </body>
+</html>
