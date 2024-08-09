@@ -16,7 +16,7 @@ var json_Potensi_Pariwisata = {
             "geometry":{"type":"Point","coordinates":[116.7478636,-8.423979135]}},
             {"type":"Feature",
             "properties":{"Nama Lokasi":"Pantai Dermaga","Foto":"pantaidermaga.jpg","Deskripsi":"Pantai Dermaga merupakan sebuah surga tropis yang menawarkan keindahan alam yang menakjubkan. Dikenal dengan lanskap alamnya yang indah, pantai ini juga memiliki dermaga sebagai spot foto menarik. Pengunjung dapat menikmati aktivitas seperti berenang, memancing, maupun bersantai sembari menikmati angin laut yang sejuk.","Dusun":"Labuhan Pandan Induk","Lokasi":"<a href='https://g.co/kgs/VvayHMZ'>Klik untuk melihat lokasi</a>"},
-            "geometry":{"type":"Point","coordinates":[116.7237968,-8.388108981]}},
+            "geometry":{"type":"Point","coordinates":[116.7244514,-8.391296587]}},
             {"type":"Feature",
             "properties":{"Nama Lokasi":"Pantai Solah","Foto":"pantaisolah.jpg","Deskripsi":"Pantai Solah merupakan destinasi wisata yang menawarkan pesona alam yang indah dengan keindahan biota laut yang beragam. Selain untuk berenang, pantai ini juga sangat cocok untuk bersantai di sore hari.","Dusun":"Labuhan Pandan Induk","Lokasi":"<a href='https://maps.app.goo.gl/HGbncTi9GFWz74maA'>Klik untuk melihat lokasi</a>"},
             "geometry":{"type":"Point","coordinates":[116.7254656,-8.38456894]}},
@@ -28,5 +28,5 @@ var json_Potensi_Pariwisata = {
             "geometry":{"type":"Point","coordinates":[116.718934,-8.374688]}},
             {"type":"Feature",
             "properties":{"Nama Lokasi":"Pantai Berandangan","Foto":"pantaiberandangan.jpg","Deskripsi":"Pantai Berandangan merupakan hamparan luas yang dilengkapi dengan keindahan alam hijau. Wisata ini juga mudah dijangkau karena aksesibilitasnya yang baik.","Dusun":"Labuhan Pandan Induk","Lokasi":"<a href='https://g.co/kgs/VvayHMZ'>Klik untuk melihat lokasi</a>"},
-            "geometry":{"type":"Point","coordinates":[116.7244514,-8.391296587]}},
+            "geometry":{"type":"Point","coordinates":[116.72288924265553,-8.392771247647747]}},
         ]}
